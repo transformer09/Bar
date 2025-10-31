@@ -50,12 +50,16 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', authMiddleware, adminRoutes);
 app.use('/api/suppliers', authMiddleware, suppliersRoutes);
 app.use('/api/inventory', authMiddleware, inventoryRoutes);
 app.use('/api/purchase-orders', authMiddleware, purchaseOrderRoutes);
 app.use('/api/bar', authMiddleware, barRoutes);
 app.use('/api/kitchen', authMiddleware, kitchenRoutes);
 app.use('/api/staff', authMiddleware, staffRoutes);
+app.use('/api/pos', authMiddleware, posRoutes);
+app.use('/api/cashier', authMiddleware, cashierRoutes);
+app.use('/api/receipts', authMiddleware, receiptsRoutes);
 app.use('/api/dashboard', authMiddleware, dashboardRoutes);
 app.use('/api/reports', authMiddleware, reportsRoutes);
 
