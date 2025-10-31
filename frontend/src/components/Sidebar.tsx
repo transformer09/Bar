@@ -7,13 +7,16 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/dashboard', label: 'Dashboard', roles: ['manager', 'bartender', 'chef', 'waiter', 'support'] },
-    { path: '/inventory', label: 'Inventory', roles: ['manager'] },
-    { path: '/purchase-orders', label: 'Purchase Orders', roles: ['manager'] },
-    { path: '/bar', label: 'Bar Management', roles: ['manager', 'bartender'] },
-    { path: '/kitchen', label: 'Kitchen Orders', roles: ['manager', 'chef', 'waiter', 'bartender'] },
-    { path: '/staff', label: 'Staff', roles: ['manager'] },
-    { path: '/reports', label: 'Reports', roles: ['manager'] },
+    { path: '/dashboard', label: '📊 Dashboard', roles: ['manager', 'bartender', 'chef', 'waiter', 'support', 'cashier'] },
+    { path: '/pos', label: '💳 Point of Sale', roles: ['manager', 'bartender', 'waiter'] },
+    { path: '/cashier', label: '💰 Cashier', roles: ['manager', 'cashier'] },
+    { path: '/inventory', label: '📦 Inventory', roles: ['manager'] },
+    { path: '/purchase-orders', label: '🛒 Purchase Orders', roles: ['manager'] },
+    { path: '/bar', label: '🍹 Bar Management', roles: ['manager', 'bartender'] },
+    { path: '/kitchen', label: '👨‍🍳 Kitchen Orders', roles: ['manager', 'chef', 'waiter', 'bartender'] },
+    { path: '/staff', label: '👥 Staff', roles: ['manager'] },
+    { path: '/reports', label: '📈 Reports', roles: ['manager'] },
+    { path: '/admin/settings', label: '⚙️ Admin Settings', roles: ['manager'] },
   ];
 
   const visibleItems = menuItems.filter((item) => item.roles.includes(user?.role || ''));
