@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../services/supabase';
 import { AuthRequest } from '../middleware/auth';
 import { requireRole } from '../middleware/rbac';
+import { activityService } from '../services/activityService';
 import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
@@ -232,6 +233,14 @@ router.post('/orders', requireRole('waiter', 'bartender', 'manager'), async (req
 
     if (itemsError) throw itemsError;
 
+    // Log order creation activity
+    await activityService.logOrderActivity(
+      order.id,
+      req.user.id,
+      'order_created',
+      `Order ORD-${order.order_number} created for table ${table_number} with ${items.length} items totaling $${total_amount.toFixed(2)}`
+    );
+
     res.status(201).json({ ...order, items: createdItems });
   } catch (error) {
     next(error);
@@ -295,6 +304,14 @@ router.post('/orders/:id/items', requireRole('waiter', 'bartender', 'manager'), 
 
     if (updateError) throw updateError;
 
+    // Log item addition activity
+    await activityService.logOrderActivity(
+      id,
+      req.user.id,
+      'items_added',
+      `${createdItems.length} item(s) added to order`
+    );
+
     res.status(201).json({ ...updatedOrder, items: createdItems });
   } catch (error) {
     next(error);
@@ -350,6 +367,14 @@ router.delete('/orders/:id/items/:itemId', requireRole('waiter', 'bartender', 'm
 
     if (updateError) throw updateError;
 
+    // Log item removal activity
+    await activityService.logOrderActivity(
+      id,
+      req.user.id,
+      'item_removed',
+      'Item removed from order'
+    );
+
     res.json(updatedOrder);
   } catch (error) {
     next(error);
@@ -372,6 +397,15 @@ router.post('/orders/:id/confirm', requireRole('waiter', 'bartender', 'manager')
       .single();
 
     if (error) throw error;
+
+    // Log order confirmation activity
+    await activityService.logOrderActivity(
+      id,
+      req.user.id,
+      'order_confirmed',
+      'Order confirmed and sent to kitchen'
+    );
+
     res.json(data);
   } catch (error) {
     next(error);
