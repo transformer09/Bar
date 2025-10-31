@@ -7,6 +7,7 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const menuItems = [
+    { path: '/owner', label: '👑 Owner Dashboard', roles: ['owner', 'manager'] },
     { path: '/dashboard', label: '📊 Dashboard', roles: ['manager', 'bartender', 'chef', 'waiter', 'support', 'cashier'] },
     { path: '/pos', label: '💳 Point of Sale', roles: ['manager', 'bartender', 'waiter'] },
     { path: '/cashier', label: '💰 Cashier', roles: ['manager', 'cashier'] },
