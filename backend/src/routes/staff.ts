@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../services/supabase';
 import { AuthRequest } from '../middleware/auth';
 import { requireRole } from '../middleware/rbac';
+import { activityService } from '../services/activityService';
 import { StaffScheduleSchema, ClockInSchema, ClockOutSchema } from '../utils/validators';
 
 const router = Router();
@@ -203,6 +204,23 @@ router.post('/:id/clock-in', async (req: AuthRequest, res, next) => {
       .single();
 
     if (error) throw error;
+
+    // Log clock-in activity
+    const { data: user } = await supabase
+      .from('users')
+      .select('first_name, last_name')
+      .eq('id', id)
+      .single();
+
+    await activityService.logActivity({
+      user_id: id,
+      activity_type: 'staff_clock_in',
+      description: `${user?.first_name || ''} ${user?.last_name || ''} clocked in`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        staff_id: id,
+      },
+    });
 
     res.status(201).json(data);
   } catch (error) {
