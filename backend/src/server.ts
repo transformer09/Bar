@@ -25,6 +25,7 @@ import adminRoutes from './routes/admin';
 import posRoutes from './routes/pos';
 import cashierRoutes from './routes/cashier';
 import receiptsRoutes from './routes/receipts';
+import ownerRoutes from './routes/owner';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
