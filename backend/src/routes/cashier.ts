@@ -161,6 +161,15 @@ router.put('/payments/:id/confirm', requireRole('cashier', 'manager'), async (re
 
     if (orderUpdateError) throw orderUpdateError;
 
+    // Log payment confirmation activity
+    await activityService.logPaymentActivity(
+      payment.order_id,
+      req.user.id,
+      'payment_confirmed',
+      updatedPayment.amount,
+      'completed'
+    );
+
     res.json(updatedPayment);
   } catch (error) {
     next(error);
@@ -195,6 +204,16 @@ router.put('/payments/:id/refund', requireRole('cashier', 'manager'), async (req
       .eq('id', data.order_id);
 
     if (orderError) throw orderError;
+
+    // Log refund activity
+    await activityService.logPaymentActivity(
+      data.order_id,
+      req.user.id,
+      'payment_refunded',
+      data.amount,
+      'refunded',
+      reason || 'No reason provided'
+    );
 
     res.json(data);
   } catch (error) {
@@ -271,6 +290,20 @@ router.post('/settlement/close', requireRole('manager'), async (req: AuthRequest
     if (paymentsError) throw paymentsError;
 
     const totalAmount = payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
+
+    // Log settlement closure activity
+    await activityService.logActivity({
+      user_id: req.user.id,
+      activity_type: 'settlement_closed',
+      description: `Settlement period closed with ${payments?.length || 0} transactions totaling $${totalAmount.toFixed(2)}`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        start_date,
+        end_date,
+        total_amount: totalAmount,
+        transaction_count: payments?.length || 0,
+      },
+    });
 
     res.json({
       settlement: {
