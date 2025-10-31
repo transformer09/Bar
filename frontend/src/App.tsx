@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Pages
 import LoginPage from './pages/LoginPage';
@@ -12,6 +13,9 @@ import KitchenPage from './pages/KitchenPage';
 import StaffPage from './pages/StaffPage';
 import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
+import POSPage from './pages/POSPage';
+import CashierPage from './pages/CashierPage';
+import AdminSettingsPage from './pages/AdminSettingsPage';
 
 // Components
 import Header from './components/Header';
