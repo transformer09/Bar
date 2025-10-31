@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { AuthRequest } from './auth';
 
-type UserRole = 'manager' | 'bartender' | 'chef' | 'waiter' | 'support';
+type UserRole = 'manager' | 'bartender' | 'chef' | 'waiter' | 'support' | 'cashier';
 
 const PERMISSIONS: Record<UserRole, Record<string, boolean>> = {
   manager: {
@@ -25,6 +25,11 @@ const PERMISSIONS: Record<UserRole, Record<string, boolean>> = {
     'staff:delete': true,
     'reports:read': true,
     'reports:export': true,
+    'pos:create': true,
+    'pos:read': true,
+    'cashier:read': true,
+    'cashier:confirm': true,
+    'admin:write': true,
     'dashboard:full': true,
   },
   bartender: {
@@ -33,6 +38,8 @@ const PERMISSIONS: Record<UserRole, Record<string, boolean>> = {
     'bar:create': true,
     'kitchen:create': true,
     'kitchen:read': true,
+    'pos:create': true,
+    'pos:read': true,
     'dashboard:sales': true,
   },
   chef: {
@@ -46,7 +53,17 @@ const PERMISSIONS: Record<UserRole, Record<string, boolean>> = {
     'inventory:read': true,
     'kitchen:create': true,
     'kitchen:read': true,
+    'pos:create': true,
+    'pos:read': true,
     'dashboard:kitchen': true,
+  },
+  cashier: {
+    'pos:read': true,
+    'cashier:read': true,
+    'cashier:confirm': true,
+    'receipts:read': true,
+    'receipts:generate': true,
+    'dashboard:payments': true,
   },
   support: {
     'inventory:read': true,
