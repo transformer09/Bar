@@ -238,7 +238,12 @@ router.post('/orders', requireRole('waiter', 'bartender', 'manager'), async (req
       order.id,
       req.user.id,
       'order_created',
-      `Order ORD-${order.order_number} created for table ${table_number} with ${items.length} items totaling $${total_amount.toFixed(2)}`
+      {
+        table_number,
+        item_count: items.length,
+        total_amount: total_amount.toFixed(2),
+        order_number: order.order_number,
+      }
     );
 
     res.status(201).json({ ...order, items: createdItems });
@@ -308,8 +313,11 @@ router.post('/orders/:id/items', requireRole('waiter', 'bartender', 'manager'), 
     await activityService.logOrderActivity(
       id,
       req.user.id,
-      'items_added',
-      `${createdItems.length} item(s) added to order`
+      'order_created',
+      {
+        action: 'items_added',
+        item_count: createdItems.length,
+      }
     );
 
     res.status(201).json({ ...updatedOrder, items: createdItems });
