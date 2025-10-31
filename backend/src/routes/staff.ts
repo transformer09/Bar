@@ -264,6 +264,24 @@ router.post('/:id/clock-out', async (req: AuthRequest, res, next) => {
 
     if (error) throw error;
 
+    // Log clock-out activity
+    const { data: user } = await supabase
+      .from('users')
+      .select('first_name, last_name')
+      .eq('id', id)
+      .single();
+
+    await activityService.logActivity({
+      user_id: id,
+      activity_type: 'staff_clock_out',
+      description: `${user?.first_name || ''} ${user?.last_name || ''} clocked out. Hours worked: ${data.hours_worked}h`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        staff_id: id,
+        hours_worked: data.hours_worked,
+      },
+    });
+
     res.json(data);
   } catch (error) {
     next(error);
