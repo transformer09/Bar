@@ -1,9 +1,24 @@
 import { Response, NextFunction } from 'express';
 import { AuthRequest } from './auth';
 
-type UserRole = 'manager' | 'bartender' | 'chef' | 'waiter' | 'support' | 'cashier';
+type UserRole = 'manager' | 'bartender' | 'chef' | 'waiter' | 'support' | 'cashier' | 'owner';
 
 const PERMISSIONS: Record<UserRole, Record<string, boolean>> = {
+  owner: {
+    'inventory:read': true,
+    'bar:read': true,
+    'kitchen:read': true,
+    'staff:read': true,
+    'reports:read': true,
+    'reports:export': true,
+    'pos:read': true,
+    'cashier:read': true,
+    'owner:analytics': true,
+    'owner:dashboard': true,
+    'owner:activity': true,
+    'owner:notifications': true,
+    'dashboard:full': true,
+  },
   manager: {
     'inventory:read': true,
     'inventory:create': true,
