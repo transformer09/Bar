@@ -121,6 +121,33 @@ const AppContent: React.FC = () => {
               }
             />
 
+            <Route
+              path="/pos"
+              element={
+                <ProtectedRoute>
+                  <POSPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/cashier"
+              element={
+                <ProtectedRoute>
+                  <CashierPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute>
+                  <AdminSettingsPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </main>
@@ -133,7 +160,9 @@ const App: React.FC = () => {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
       </AuthProvider>
     </Router>
   );
