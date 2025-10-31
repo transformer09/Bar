@@ -21,6 +21,10 @@ import staffRoutes from './routes/staff';
 import dashboardRoutes from './routes/dashboard';
 import reportsRoutes from './routes/reports';
 import suppliersRoutes from './routes/suppliers';
+import adminRoutes from './routes/admin';
+import posRoutes from './routes/pos';
+import cashierRoutes from './routes/cashier';
+import receiptsRoutes from './routes/receipts';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
