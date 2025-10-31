@@ -16,6 +16,7 @@ import SettingsPage from './pages/SettingsPage';
 import POSPage from './pages/POSPage';
 import CashierPage from './pages/CashierPage';
 import AdminSettingsPage from './pages/AdminSettingsPage';
+import ComprehensiveSettingsPage from './pages/ComprehensiveSettingsPage';
 import OwnerDashboardPage from './pages/OwnerDashboardPage';
 
 // Components
@@ -144,7 +145,7 @@ const AppContent: React.FC = () => {
               path="/admin/settings"
               element={
                 <ProtectedRoute>
-                  <AdminSettingsPage />
+                  <ComprehensiveSettingsPage />
                 </ProtectedRoute>
               }
             />
