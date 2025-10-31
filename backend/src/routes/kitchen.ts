@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../services/supabase';
 import { AuthRequest } from '../middleware/auth';
 import { requireRole } from '../middleware/rbac';
+import { activityService } from '../services/activityService';
 import { KitchenOrderSchema } from '../utils/validators';
 
 const router = Router();
@@ -115,6 +116,18 @@ router.post('/', requireRole('waiter', 'bartender', 'manager'), async (req: Auth
       .select();
 
     if (itemsError) throw itemsError;
+
+    // Log kitchen order creation activity
+    await activityService.logActivity({
+      user_id: req.user.id,
+      activity_type: 'kitchen_order_created',
+      description: `Kitchen order ${order.order_number} created with ${items?.length || 0} items`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        order_id: order.id,
+        item_count: items?.length || 0,
+      },
+    });
 
     res.status(201).json({
       ...order,
