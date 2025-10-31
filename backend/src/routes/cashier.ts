@@ -204,14 +204,16 @@ router.put('/payments/:id/refund', requireRole('cashier', 'manager'), async (req
     if (orderError) throw orderError;
 
     // Log refund activity
-    await activityService.logPaymentActivity(
-      data.order_id,
-      req.user.id,
-      'payment_refunded',
-      data.amount,
-      'refunded',
-      reason || 'No reason provided'
-    );
+    await activityService.logActivity({
+      user_id: req.user.id,
+      activity_type: 'payment_refunded',
+      description: `Payment of $${data.amount.toFixed(2)} refunded. Reason: ${reason || 'No reason provided'}`,
+      metadata: {
+        order_id: data.order_id,
+        amount: data.amount,
+        reason: reason || 'No reason provided',
+      },
+    });
 
     res.json(data);
   } catch (error) {
