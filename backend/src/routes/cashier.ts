@@ -85,7 +85,6 @@ router.post('/payments', requireRole('waiter', 'bartender', 'manager'), async (r
     await activityService.logPaymentActivity(
       order_id,
       req.user?.id || 'unknown',
-      'payment_created',
       amount,
       'pending'
     );
@@ -165,7 +164,6 @@ router.put('/payments/:id/confirm', requireRole('cashier', 'manager'), async (re
     await activityService.logPaymentActivity(
       payment.order_id,
       req.user.id,
-      'payment_confirmed',
       updatedPayment.amount,
       'completed'
     );
