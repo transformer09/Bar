@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../services/supabase';
 import { AuthRequest } from '../middleware/auth';
 import { requireRole } from '../middleware/rbac';
+import { activityService } from '../services/activityService';
 
 const router = Router();
 
@@ -79,6 +80,16 @@ router.post('/payments', requireRole('waiter', 'bartender', 'manager'), async (r
       .single();
 
     if (error) throw error;
+
+    // Log payment creation activity
+    await activityService.logPaymentActivity(
+      order_id,
+      req.user?.id || 'unknown',
+      'payment_created',
+      amount,
+      'pending'
+    );
+
     res.status(201).json(data);
   } catch (error) {
     next(error);
