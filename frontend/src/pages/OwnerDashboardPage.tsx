@@ -29,7 +29,7 @@ const OwnerDashboardPage: React.FC = () => {
   const [pnl, setPnL] = useState<ProfitLossData | null>(null);
   const [staffPerformance, setStaffPerformance] = useState<any[]>([]);
   const [unusualActivities, setUnusualActivities] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'alerts'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'operations' | 'alerts'>('overview');
   const [loading, setLoading] = useState(true);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
 
@@ -268,6 +268,17 @@ const OwnerDashboardPage: React.FC = () => {
                 </table>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Operations Tab */}
+        {activeTab === 'operations' && (
+          <div className="space-y-8">
+            {/* Table Occupancy Heatmap */}
+            <TableOccupancyHeatmap />
+
+            {/* Staff Movement Timeline */}
+            <StaffMovementTimeline />
           </div>
         )}
 
