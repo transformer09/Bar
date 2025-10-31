@@ -61,6 +61,7 @@ app.use('/api/staff', authMiddleware, staffRoutes);
 app.use('/api/pos', authMiddleware, posRoutes);
 app.use('/api/cashier', authMiddleware, cashierRoutes);
 app.use('/api/receipts', authMiddleware, receiptsRoutes);
+app.use('/api/owner', authMiddleware, ownerRoutes);
 app.use('/api/dashboard', authMiddleware, dashboardRoutes);
 app.use('/api/reports', authMiddleware, reportsRoutes);
 
