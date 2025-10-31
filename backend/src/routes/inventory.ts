@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../services/supabase';
 import { AuthRequest } from '../middleware/auth';
 import { requireRole, requirePermission } from '../middleware/rbac';
+import { activityService } from '../services/activityService';
 import { InventoryItemSchema, ManualAdjustmentSchema } from '../utils/validators';
 
 const router = Router();
@@ -196,6 +197,23 @@ router.post('/transactions', requireRole('manager', 'chef'), async (req: AuthReq
       .eq('id', input.inventory_item_id);
 
     if (updateError) throw updateError;
+
+    // Get item name for logging
+    const { data: itemName } = await supabase
+      .from('inventory_items')
+      .select('name')
+      .eq('id', input.inventory_item_id)
+      .single();
+
+    // Log inventory transaction activity
+    const movementType = input.quantity_change > 0 ? 'restock' : 'adjustment';
+    await activityService.logInventoryActivity(
+      input.inventory_item_id,
+      movementType,
+      Math.abs(input.quantity_change),
+      req.user.id,
+      input.notes || 'Manual adjustment'
+    );
 
     res.status(201).json(transaction);
   } catch (error) {
