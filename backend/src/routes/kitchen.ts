@@ -167,6 +167,18 @@ router.put('/:id/status', requireRole('chef', 'manager'), async (req: AuthReques
 
     if (error) throw error;
 
+    // Log status change activity
+    await activityService.logActivity({
+      user_id: req.user?.id || 'system',
+      activity_type: 'kitchen_order_status_changed',
+      description: `Order status changed to ${status}`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        order_id: id,
+        new_status: status,
+      },
+    });
+
     res.json(data);
   } catch (error) {
     next(error);
@@ -203,6 +215,19 @@ router.put('/:id/assign', requireRole('manager', 'chef'), async (req: AuthReques
       .single();
 
     if (error) throw error;
+
+    // Log chef assignment activity
+    await activityService.logActivity({
+      user_id: req.user?.id || 'system',
+      activity_type: 'order_assigned_to_chef',
+      description: `Order assigned to chef ${chef.first_name || chef_id}`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        order_id: id,
+        chef_id: chef_id,
+        chef_name: chef.first_name,
+      },
+    });
 
     res.json(data);
   } catch (error) {
@@ -245,6 +270,17 @@ router.post('/:id/start', requireRole('chef', 'manager'), async (req: AuthReques
       .single();
 
     if (error) throw error;
+
+    // Log order start activity
+    await activityService.logActivity({
+      user_id: req.user?.id || 'system',
+      activity_type: 'kitchen_order_started',
+      description: 'Order cooking started',
+      timestamp: new Date().toISOString(),
+      metadata: {
+        order_id: id,
+      },
+    });
 
     res.json(data);
   } catch (error) {
@@ -324,6 +360,18 @@ router.post('/:id/complete', requireRole('chef', 'manager'), async (req: AuthReq
       .single();
 
     if (error) throw error;
+
+    // Log order completion activity
+    await activityService.logActivity({
+      user_id: req.user.id,
+      activity_type: 'kitchen_order_completed',
+      description: `Order completed and ready for serving. ${items?.length || 0} items prepared`,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        order_id: id,
+        items_prepared: items?.length || 0,
+      },
+    });
 
     res.json(data);
   } catch (error) {
