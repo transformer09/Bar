@@ -379,8 +379,8 @@ router.delete('/orders/:id/items/:itemId', requireRole('waiter', 'bartender', 'm
     await activityService.logOrderActivity(
       id,
       req.user.id,
-      'item_removed',
-      'Item removed from order'
+      'order_created',
+      { action: 'item_removed' }
     );
 
     res.json(updatedOrder);
@@ -411,7 +411,7 @@ router.post('/orders/:id/confirm', requireRole('waiter', 'bartender', 'manager')
       id,
       req.user.id,
       'order_confirmed',
-      'Order confirmed and sent to kitchen'
+      { action: 'confirmed_and_sent_to_kitchen' }
     );
 
     res.json(data);
