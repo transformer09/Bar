@@ -111,7 +111,7 @@ const OwnerDashboardPage: React.FC = () => {
 
         {/* Tab Navigation */}
         <div className="flex gap-4 mb-8 border-b">
-          {(['overview', 'analytics', 'alerts'] as const).map((tab) => (
+          {(['overview', 'analytics', 'operations', 'alerts'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
