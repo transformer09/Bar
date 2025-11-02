@@ -11,7 +11,18 @@ const Sidebar: React.FC = () => {
     { path: '/dashboard', label: '📊 Dashboard', roles: ['manager', 'bartender', 'chef', 'waiter', 'support', 'cashier'] },
     { path: '/pos', label: '💳 Point of Sale', roles: ['manager', 'bartender', 'waiter'] },
     { path: '/cashier', label: '💰 Cashier', roles: ['manager', 'cashier'] },
-    { path: '/inventory', label: '📦 Inventory', roles: ['manager'] },
+    {
+      path: '/inventory',
+      label: '📦 Inventory Management',
+      roles: ['manager'],
+      subItems: [
+        { path: '/inventory/dashboard', label: '📊 Inventory Dashboard' },
+        { path: '/inventory/stock-management', label: '📦 Stock Management' },
+        { path: '/inventory/batch-management', label: '📋 Batch Management' },
+        { path: '/inventory/expiration-tracking', label: '⏰ Expiration Tracking' },
+        { path: '/inventory/price-management', label: '💰 Price Management' },
+      ]
+    },
     { path: '/purchase-orders', label: '🛒 Purchase Orders', roles: ['manager'] },
     { path: '/bar', label: '🍹 Bar Management', roles: ['manager', 'bartender'] },
     { path: '/kitchen', label: '👨‍🍳 Kitchen Orders', roles: ['manager', 'chef', 'waiter', 'bartender'] },
