@@ -7,10 +7,26 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/owner', label: '👑 Owner Dashboard', roles: ['owner', 'manager'] },
+    { path: '/owner/dashboard', label: '👑 Owner Dashboard', roles: ['owner', 'manager'] },
     { path: '/dashboard', label: '📊 Dashboard', roles: ['manager', 'bartender', 'chef', 'waiter', 'support', 'cashier'] },
-    { path: '/pos', label: '💳 Point of Sale', roles: ['manager', 'bartender', 'waiter'] },
-    { path: '/cashier', label: '💰 Cashier', roles: ['manager', 'cashier'] },
+    {
+      path: '/pos',
+      label: '💳 Point of Sale',
+      roles: ['manager', 'bartender', 'waiter'],
+      subItems: [
+        { path: '/pos', label: '💳 Classic POS' },
+        { path: '/pos/modern', label: '🎨 Modern POS' },
+      ]
+    },
+    {
+      path: '/cashier',
+      label: '💰 Cashier',
+      roles: ['manager', 'cashier'],
+      subItems: [
+        { path: '/cashier', label: '💰 Classic Cashier' },
+        { path: '/cashier/dashboard', label: '📊 Cashier Dashboard' },
+      ]
+    },
     {
       path: '/inventory',
       label: '📦 Inventory Management',
@@ -23,12 +39,14 @@ const Sidebar: React.FC = () => {
         { path: '/inventory/price-management', label: '💰 Price Management' },
       ]
     },
+    { path: '/lodge', label: '🏨 Lodge Management', roles: ['manager', 'lodge-manager', 'reception'] },
+    { path: '/credit', label: '💳 Credit Management', roles: ['manager', 'credit-manager'] },
     { path: '/purchase-orders', label: '🛒 Purchase Orders', roles: ['manager'] },
     { path: '/bar', label: '🍹 Bar Management', roles: ['manager', 'bartender'] },
     { path: '/kitchen', label: '👨‍🍳 Kitchen Orders', roles: ['manager', 'chef', 'waiter', 'bartender'] },
     { path: '/staff', label: '👥 Staff', roles: ['manager'] },
     { path: '/reports', label: '📈 Reports', roles: ['manager'] },
-    { path: '/admin/settings', label: '⚙️ Admin Settings', roles: ['manager'] },
+    { path: '/system/settings', label: '⚙️ System Settings', roles: ['owner', 'admin'] },
   ];
 
   const visibleItems = menuItems.filter((item) => item.roles.includes(user?.role || ''));
