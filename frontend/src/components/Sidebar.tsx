@@ -37,17 +37,35 @@ const Sidebar: React.FC = () => {
     <aside className="w-64 bg-white shadow-md border-r border-gray-200 overflow-y-auto">
       <nav className="p-4 space-y-2">
         {visibleItems.map((item) => (
-          <Link
-            key={item.path}
-            to={item.path}
-            className={`block px-4 py-3 rounded-lg transition-colors ${
-              location.pathname === item.path
-                ? 'bg-primary text-white font-medium'
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            {item.label}
-          </Link>
+          <div key={item.path}>
+            <Link
+              to={item.path}
+              className={`block px-4 py-3 rounded-lg transition-colors ${
+                location.pathname === item.path || (item.subItems && location.pathname.startsWith(item.path))
+                  ? 'bg-primary text-white font-medium'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {item.label}
+            </Link>
+            {item.subItems && (location.pathname.startsWith(item.path)) && (
+              <div className="ml-4 mt-2 space-y-1">
+                {item.subItems.map((subItem) => (
+                  <Link
+                    key={subItem.path}
+                    to={subItem.path}
+                    className={`block px-4 py-2 rounded-lg transition-colors text-sm ${
+                      location.pathname === subItem.path
+                        ? 'bg-primary-100 text-primary font-medium'
+                        : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    {subItem.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </nav>
     </aside>
