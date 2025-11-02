@@ -189,10 +189,64 @@ const AppContent: React.FC = () => {
             />
 
             <Route
+              path="/pos/modern"
+              element={
+                <ProtectedRoute>
+                  <ModernPOS />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/cashier"
               element={
                 <ProtectedRoute>
                   <CashierPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/cashier/dashboard"
+              element={
+                <ProtectedRoute>
+                  <CashierDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/owner/dashboard"
+              element={
+                <ProtectedRoute>
+                  <OwnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/system/settings"
+              element={
+                <ProtectedRoute>
+                  <SystemSettings />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/lodge"
+              element={
+                <ProtectedRoute>
+                  <LodgeManagement />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/credit"
+              element={
+                <ProtectedRoute>
+                  <CreditManagement />
                 </ProtectedRoute>
               }
             />
