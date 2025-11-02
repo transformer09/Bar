@@ -75,6 +75,51 @@ const AppContent: React.FC = () => {
             />
 
             <Route
+              path="/inventory/dashboard"
+              element={
+                <ProtectedRoute>
+                  <InventoryDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/inventory/stock-management"
+              element={
+                <ProtectedRoute>
+                  <StockManagement />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/inventory/batch-management"
+              element={
+                <ProtectedRoute>
+                  <BatchManagement />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/inventory/expiration-tracking"
+              element={
+                <ProtectedRoute>
+                  <ExpirationTracking />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/inventory/price-management"
+              element={
+                <ProtectedRoute>
+                  <PriceManagement />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/purchase-orders"
               element={
                 <ProtectedRoute>
